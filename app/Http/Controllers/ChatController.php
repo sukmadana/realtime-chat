@@ -18,16 +18,22 @@ class ChatController extends Controller
     }
 
     public function broadcastMessage(Request $request){
+
         $user = Auth::user();
+        
 
         // $message = $user->messages()->create([
         //     'message' => $request->message
         // ]);
 
-        $message = $request->message;
+        $message = new Message;
+        $message->user_id = $user->id;
+        $message->message = $request->message;
+        $message->save();
+
 
          //BROADCAST EVENTNYA 
-        // broadcast(new MessageSent($user, $message))->toOthers();
+        broadcast(new MessageSent($user, $message))->toOthers();
         return response()->json(['status' => 'Message Sent!']);
     }
 }

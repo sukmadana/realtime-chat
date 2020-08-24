@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use App\User;
 use App\Message;
 
-class MessageSent
+class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,7 +24,7 @@ class MessageSent
      *
      * @return void
      */
-    public function __construct($user, $message)
+    public function __construct(User $user, Message $message)
     {
         $this->user = $user;
         $this->message = $message;
